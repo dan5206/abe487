@@ -1,0 +1,61 @@
+    1  exit
+    2  history
+    3  ls
+    4  cd course
+    5  mkdir abe 587
+    6  cd ~
+    7  ftp ftp.imicrobe.us
+    8  ls
+    9  mv cuffdiff.txt mouse.fa course/abe587/
+   10  mv cuffdiff.txt mouse.fa course
+   11  cd course
+   12  ls
+   13  rmdir abe
+   14  rmdir abe587
+   15  rmdir 587
+   16  mkdir abe587
+   17  mv cuffdiff.txt mouse.fa abe587
+   18  cd abe587/
+   19  ls
+   20  touch README.md
+   21  nano README.md 
+   22  git init
+   23  git add .
+   24  git commit -m "Homework 1"
+   25  git remote add origin git@github.com:dan5206/abe587.git
+   26  git push origin master
+   27  cd ~
+   28  ls | wc -l
+   29  ls
+   30  ls -l
+   31  ls -d */ | wc -l # how many directories
+   32  history
+   33  history -d 30
+   34  history
+   35  history -d 33
+   36  ls
+   37  cd course
+   38  ls
+   39  cd abe587
+   40  ls
+   41  mkdir homework1
+   42  cp mouse.fa homework1/
+   43  ls
+   44  cd homework1/
+   45  mv mouse.fa sequences.fasta
+   46  ls
+   47  cat sequences.fasta | wc -l # how many lines
+   48  cat sequences.fasta | wc -c # how many characters
+   49  man head
+   50  head -1 sequences.fasta 
+   51  man tail
+   52  tail -3 sequences.fasta 
+   53  grep -c '>' sequences.fasta 
+   54  mv sequences.fasta mouse.fasta
+   55  ls
+   56  mkdir mouse.fasta 
+   57  mkdir fasta
+   58  cp mouse.fasta fasta/
+   59  ls fasta/
+   60  rm mouse.fasta 
+   61  history > unixBasics.history.txt
