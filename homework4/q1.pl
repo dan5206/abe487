@@ -8,8 +8,8 @@ my $y = shift;
 my $out = 'out.txt';
 my $err = 'err.txt';
 
-open (my $out_fh, '>', $out) or die "can't open $out: $!\n";
-open (STDERR, '>', $err) or die "can't open $err: $!\n"; 
+open my $out_fh, '>', $out;
+open STDERR, '>', $err; 
 
 unless( defined $x and defined $y){
   die "Please provide two numbers.\n";

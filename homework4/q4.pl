@@ -4,7 +4,7 @@ use warnings;
 use autodie;
 
 my $in = shift @ARGV;
-open(my $in_fh, '<', $in ) or die "can't open $in: $!\n";
+open my $in_fh, '<', $in;
 
 my $line_count = 0;
 my $char_count = 0;

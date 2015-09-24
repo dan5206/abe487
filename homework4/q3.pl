@@ -5,8 +5,8 @@ use autodie;
 
 my $in = shift @ARGV;
 my $out = 'outfa.txt';
-open(my $in_fh, '<', $in ) or die "can't open $in: $!\n";
-open(OUT, '>', $out) or die "can't open $out: $!\n";
+open my $in_fh, '<', $in;
+open OUT, '>', $out;
 
 while(my $line = <$in_fh>){
   chomp ($line);

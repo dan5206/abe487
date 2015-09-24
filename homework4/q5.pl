@@ -4,7 +4,7 @@ use warnings;
 use autodie;
 
 my $in = 'Perl_III.nobody.txt';
-open(my $in_fh, '<', $in ) or die "can't open $in: $!\n";
+open my $in_fh, '<', $in;
 
 while (my $line = <$in_fh>) {
   chomp $line;
