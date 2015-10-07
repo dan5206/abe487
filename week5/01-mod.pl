@@ -10,7 +10,7 @@ unless(@list){
   die "Please provide a list of numbers.\n";
 } 
 
-foreach my $num (@list){
+for my $num (@list){
   if($num % 2 == 0 ){
     push (@even_list, $num);
   }
