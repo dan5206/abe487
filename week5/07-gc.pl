@@ -17,9 +17,9 @@ print "Length:", length($seq),"\n";
 my @array = split //, uc($seq);
 my $GC=0;
 for (my $i=0; $i<scalar @array; $i++){
-  my $ele= $array[$i];
+  my $ele = $array[$i];
   if($ele eq "G"||$ele eq "C"){
-   $GC = $GC+1;
+   $GC ++;
    }
 }
 
