@@ -26,7 +26,6 @@ else {
    print "* ";
   }
  }
- print "\n";
- print join(' ', @array2),"\n";
+ print "\n", join(' ', @array2),"\n";
 }
 
