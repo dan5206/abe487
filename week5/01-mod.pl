@@ -16,5 +16,5 @@ for my $num (@list){
   }
 }
 
-print "evens = ",join(',',@even_list),"\n";
+print "evens = ",join(', ',@even_list),"\n";
 
