@@ -11,13 +11,13 @@ unless(@list){
 
 ## default sorting
 my @sorted = sort @list;
-print "default sort = ",join(',',@sorted),"\n";
+print "default sort = ",join(', ',@sorted),"\n";
 
 ## sort numerically
 @sorted = sort {$a <=> $b}@list;
-print "numerical sort = ",join(',',@sorted),"\n";
+print "numerical sort = ",join(', ',@sorted),"\n";
 
 ## reserve sorting
 @sorted = sort {$b <=> $a}@list;
-print "reverse numercial sort = ",join(',',@sorted),"\n";
+print "reverse numercial sort = ",join(', ',@sorted),"\n";
 
