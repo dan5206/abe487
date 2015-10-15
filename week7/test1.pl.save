@@ -1,0 +1,10 @@
+#!/usr/bin/env/perl
+use strict;
+use warnings;
+use feature 'say';
+use autodie;
+
+my $seq = $ARGV[0] or die "Please provide a sequence.\n";
+my $k   = $ARGV[0];
+my %seq_hash;
+
