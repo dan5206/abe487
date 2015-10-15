@@ -2,19 +2,20 @@
 use strict;
 use warnings;
 use autodie;
+use feature 'say';
 
 my @list = (101, 2, 15, 22, 95, 33, 2, 27, 72, 15, 52);
-print "array = ", join(',',@list),"\n";
+say "array = ", join(', ',@list);
 
 my $last = pop(@list);
-print "popped = ",$last, ",array = ",join(',',@list),"\n";
+say "popped = ",$last, ",array = ",join(', ',@list);
 
 my $first = shift(@list);
-print "shifted = ", $first," array = ",join(',',@list), "\n";
+say "shifted = ", $first," array = ",join(', ',@list);
 
 push (@list, 12);
-print "after push,array = ",join(',',@list), "\n";
+say "after push,array = ",join(', ',@list);
 
 unshift (@list,4);
-print "after unshift,array = ", join(',',@list),"\n";
+say "after unshift,array = ", join(', ',@list);
 

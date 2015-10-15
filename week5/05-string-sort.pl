@@ -10,8 +10,8 @@ unless(@list){
 }
 
 my @sorted = sort{$a cmp $b}(@list);
-print "sorted = ", join(',',@sorted),"\n";
+print "sorted = ", join(', ',@sorted),"\n";
 
 my @re_sorted = sort{$b cmp $a}(@list);
-print "reverse = ",join(',',@re_sorted),"\n";
+print "reverse = ",join(', ',@re_sorted),"\n";
 
