@@ -6,7 +6,7 @@ use feature 'say';
 my $name = shift || 'George';
 while (my $line = <DATA>) {
   chomp $line;
-  $line =~ s/Nobody/$name/;
+  $line =~ s/Nobody/$name/ig;
   say "$line";
 }
 
