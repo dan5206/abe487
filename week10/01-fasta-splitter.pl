@@ -45,14 +45,6 @@ push my @out, $file.$fcount;
  
 
 while (my $seq_object = $seqIO_object->next_seq){
-   #if( $count % $number ==0 ) {
-    # $fcount ++;
-    # $out_seqIO_obj = Bio::SeqIO->new(
-    #                     -file   => ">$out_dir/$file.$fcount",
-    #                     -format => 'fasta',
-    #              ); 
-    #  push @out, $file.$fcount;
-    #  }
    $out_seqIO_obj -> write_seq($seq_object);
    $count ++;
    if( $count % $number ==0 ) {
