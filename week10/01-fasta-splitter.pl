@@ -64,7 +64,6 @@ print STDERR "  -> $out_dir/$outfile\n";
 }
 $id ++;
 }
-#print STDERR "$out_dir/$file.$fcount\n";
 
 say "Done.";
 
