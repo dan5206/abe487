@@ -30,32 +30,40 @@ make_path $out_dir;
 my $id = 1;
 for my $file (@args) {
 my $seqIO_object = Bio::SeqIO->new(
-                         -file => $file,
+                         -file   => $file,
                          -format => 'fasta',
                   );
 
-my $count  =1;
-my $fcount =1;
+my $count  = 0;
+my $fcount = 1;
 
 my $out_seqIO_obj = Bio::SeqIO->new(
-                         -file => ">$out_dir/$file.$fcount", 
+                         -file   => ">$out_dir/$file.$fcount", 
                          -format => 'fasta',
                   );
 push my @out, $file.$fcount;
  
 
 while (my $seq_object = $seqIO_object->next_seq){
+   #if( $count % $number ==0 ) {
+    # $fcount ++;
+    # $out_seqIO_obj = Bio::SeqIO->new(
+    #                     -file   => ">$out_dir/$file.$fcount",
+    #                     -format => 'fasta',
+    #              ); 
+    #  push @out, $file.$fcount;
+    #  }
+   $out_seqIO_obj -> write_seq($seq_object);
+   $count ++;
    if( $count % $number ==0 ) {
      $fcount ++;
      $out_seqIO_obj = Bio::SeqIO->new(
-                         -file => ">$out_dir/$file.$fcount",
+                         -file   => ">$out_dir/$file.$fcount",
                          -format => 'fasta',
-                  ); 
+                  );
       push @out, $file.$fcount;
-      }
-
- $out_seqIO_obj -> write_seq($seq_object);
- $count ++;
+    }
+   else { next;}
 }
 
 print "$id: $file\n";
