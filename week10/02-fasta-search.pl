@@ -8,11 +8,16 @@ use Getopt::Long;
 use Pod::Usage;
 use Bio::SeqIO;
 use Bio::DB::Fasta;
+use Pod::Usage;
 use List::Util qw(min max);
 
 my %opts = get_opts();
-my $dbfile = shift;
-my $pattern = shift;
+
+unless (@ARGV == 2) {
+    pod2usage();
+}
+
+my ($dbfile, $pattern) = @ARGV;
 
 if ($opts{'help'} || $opts{'man'}) {
     pod2usage({
@@ -22,50 +27,54 @@ if ($opts{'help'} || $opts{'man'}) {
 }
 
 my $re_pat = $pattern;
-$re_pat =~ s/[^A-Za-z0-9]//g; 
-open my $out, '>', "$re_pat.fa";
+#$re_pat =~ s/[^A-Za-z0-9]//g; 
+$re_pat =~ s/\W//g; 
+#open my $out, '>', "$re_pat.fa";
+
+my $out = Bio::SeqIO->new(-file => '>' . $re_pat . ".fa", -format => 'Fasta');
 
 # for multiple pattern
-my (@plist, @word, @num, @pa_list);
-if ( $re_pat ne $pattern) {
-  @plist = split(//,$re_pat);
-  @word = grep ( /\D/, @plist );
-  @num = grep ( /\d/, @plist );
-  my $min = min @num;
-  my $max = max @num;
-  for($min .. $max) {
-    push @pa_list, join('',@word, $_);
-  } 
+my ( @plist, @word, @num, @pa_list );
+if ( $re_pat ne $pattern ) {
+    @plist = split( //, $re_pat );
+    @word = grep ( /\D/, @plist );
+    @num  = grep ( /\d/, @plist );
+    my $min = min @num;
+    my $max = max @num;
+    for ( $min .. $max ) {
+        push @pa_list, join( '', @word, $_ );
+    }
 }
-else { 
-  @pa_list = ();
-  push @pa_list, $pattern;
+else {
+    @pa_list = ();
+    push @pa_list, $pattern;
 }
 
-my $db_obj = Bio::DB::Fasta -> new($dbfile);
-my @ids    = $db_obj->get_all_primary_ids;
-my $count = 0;
-my @matchseq=();
+my $db_obj   = Bio::DB::Fasta->new($dbfile);
+my @ids      = $db_obj->get_all_primary_ids;
+my $count    = 0;
+my @matchseq = ();
 for my $fa_ids (@ids) {
-  my ($header, $newseq);
-  for my $match (@pa_list) {
-  if ($fa_ids =~ /$match/) {
-   my $id_seq_obj = $db_obj->get_Seq_by_id($fa_ids); 
-   my $seq_obj = $id_seq_obj -> seq; 				  
-   my $des_seq = $id_seq_obj -> desc;
-   $header = join(" ", join('',">",$fa_ids), $des_seq);
-   $newseq = join("\n", $header, $seq_obj); 
-   print $out $newseq,"\n"; 
-   $count ++;
-  }
- } 
+    my ( $header, $newseq );
+    for my $match (@pa_list) {
+        if ( $fa_ids =~ /$match/ ) {
+            my $id_seq_obj = $db_obj->get_Seq_by_id($fa_ids);
+            $out->write_seq($id_seq_obj);
+            #my $seq_obj    = $id_seq_obj->seq;
+            #my $des_seq    = $id_seq_obj->desc;
+            #$header = join( " ", join( '', ">", $fa_ids ), $des_seq );
+            #$newseq = join( "\n", $header, $seq_obj );
+            #print $out $newseq, "\n";
+            $count++;
+        }
+    }
 }
-  
-  print "Searching '$dbfile' for '$pattern'\n";
-  print "Found $count ids.\n";
-  if ($count != 0){ 
+
+print "Searching '$dbfile' for '$pattern'\n";
+print "Found $count ids.\n";
+if ( $count != 0 ) {
     print "See results in '$re_pat.fa'\n";
-  }
+}
 # --------------------------------------------------
 sub get_opts {
     my %opts;

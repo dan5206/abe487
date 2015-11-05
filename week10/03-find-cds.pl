@@ -10,7 +10,7 @@ use Bio::SeqIO;
 use Data::Dumper;
 
 my %opts = get_opts();
-my @args = @ARGV;
+my @args = @ARGV or pod2usage();
 
 if ($opts{'help'} || $opts{'man'}) {
     pod2usage({

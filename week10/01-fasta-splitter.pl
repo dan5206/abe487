@@ -7,10 +7,13 @@ use feature 'say';
 use Getopt::Long;
 use Pod::Usage;
 use Bio::SeqIO;
+use File::Basename 'basename';
+use File::Spec::Functions 'catfile';
+use File::Path qw(make_path);
 use Cwd;
 
 my %opts = get_opts();
-my @args = @ARGV;
+my @args = @ARGV or pod2usage();
 
 if ($opts{'help'} || $opts{'man'}) {
     pod2usage({
@@ -22,47 +25,47 @@ if ($opts{'help'} || $opts{'man'}) {
 my $number = $opts{'number'} || 500;
 my $out_dir = $opts{'out_dir'} or getcwd;
 
-
-
-use File::Path qw(make_path);
-make_path $out_dir;
+unless (-d $out_dir) {
+    make_path $out_dir;
+}
 
 my $id = 1;
 for my $file (@args) {
-my $seqIO_object = Bio::SeqIO->new(
-                         -file   => $file,
-                         -format => 'fasta',
-                  );
+    my $seqIO_object = Bio::SeqIO->new(
+        -file   => $file,
+        -format => 'fasta',
+    );
 
-my $count  = 0;
-my $fcount = 1;
+    my $count  = 0;
+    my $fcount = 1;
 
-my $out_seqIO_obj = Bio::SeqIO->new(
-                         -file   => ">$out_dir/$file.$fcount", 
-                         -format => 'fasta',
-                  );
-push my @out, $file.$fcount;
- 
+    my $out_file = catfile($out_dir, basename($file) . '.' . $fcount);
+    my $out_seqIO_obj = Bio::SeqIO->new(
+        -file   => ">$out_file",
+        -format => 'fasta',
+    );
 
-while (my $seq_object = $seqIO_object->next_seq){
-   $out_seqIO_obj -> write_seq($seq_object);
-   $count ++;
-   if( $count % $number ==0 ) {
-     $fcount ++;
-     $out_seqIO_obj = Bio::SeqIO->new(
-                         -file   => ">$out_dir/$file.$fcount",
-                         -format => 'fasta',
-                  );
-      push @out, $file.$fcount;
+    push my @out, $out_file;
+
+    while ( my $seq_object = $seqIO_object->next_seq ) {
+        $out_seqIO_obj->write_seq($seq_object);
+        $count++;
+        if ( $count % $number == 0 ) {
+            $fcount++;
+            my $out_file = catfile($out_dir, basename($file) . '.' . $fcount);
+            $out_seqIO_obj = Bio::SeqIO->new(
+                -file   => ">$out_file",
+                -format => 'fasta',
+            );
+            push @out, $out_file;
+        }
     }
-   else { next;}
-}
 
-print "$id: $file\n";
-for my $outfile (@out){
-print STDERR "  -> $out_dir/$outfile\n";
-}
-$id ++;
+    print "$id: $file\n";
+    for my $outfile (@out) {
+        print STDERR "  -> $outfile\n";
+    }
+    $id++;
 }
 
 say "Done.";
